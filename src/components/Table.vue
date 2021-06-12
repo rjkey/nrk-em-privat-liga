@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      players: [11007, 11777, 13645],
+      players: [11007, 11777, 13645, 14852, 15823, 14008],
       scores: [],
       lastIndex: 0,
       lastScore: 0,

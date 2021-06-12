@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      players: [11007],
+      players: [11007, 11777],
       scores: [],
     };
   },
@@ -63,8 +63,8 @@ export default {
         values.forEach((value) => {
           this.scores.push(value.data.bracketEntry);
         });
+        this.scores.sort((a, b) => b.totalScore - a.totalScore);
       });
-      this.scores.sort((a, b) => (a.totalScore > b.totalScore ? 1 : -1));
     },
   },
 };

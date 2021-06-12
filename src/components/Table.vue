@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive card">
-    <table class="table table-hover table-striped">
+    <table class="table table-hover table-striped" v-if="scores.length">
       <thead>
         <tr>
           <th scope="col">Les bois rank</th>
@@ -14,13 +14,13 @@
       </thead>
       <tbody>
         <tr v-for="(score, index) in scores" :key="index">
-          <td>{{ index + 1 }}</td>
+          <td>#{{ score.lesBoisRank }}</td>
           <td>{{ score.name }}</td>
           <td>{{ score.groupScore }}</td>
           <td>{{ score.playoffScore }}</td>
           <td>{{ score.questionScore }}</td>
           <td>{{ score.totalScore }}</td>
-          <td>{{ score.rank }}</td>
+          <td>#{{ score.rank }}</td>
         </tr>
       </tbody>
     </table>
@@ -36,8 +36,10 @@ export default {
   },
   data() {
     return {
-      players: [11007, 11777],
+      players: [11007, 11777, 13645],
       scores: [],
+      lastIndex: 0,
+      lastScore: 0,
     };
   },
   created() {
@@ -59,12 +61,27 @@ export default {
         });
         promises.push(promise);
       });
+      let tmpValues = [];
       Promise.all(promises).then((values) => {
         values.forEach((value) => {
-          this.scores.push(value.data.bracketEntry);
+          tmpValues.push(value.data.bracketEntry);
         });
-        this.scores.sort((a, b) => b.totalScore - a.totalScore);
+        tmpValues.sort((a, b) => b.totalScore - a.totalScore);
+        this.scores = this.determineLesBoisRank(tmpValues);
       });
+    },
+
+    determineLesBoisRank(scores) {
+      let lastScore,
+        lastIndex = 0;
+      scores.forEach((score) => {
+        if (score.totalScore !== lastScore) {
+          lastScore = score.totalScore;
+          lastIndex = lastIndex + 1;
+        }
+        score.lesBoisRank = lastIndex;
+      });
+      return scores;
     },
   },
 };

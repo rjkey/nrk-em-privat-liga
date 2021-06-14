@@ -15,7 +15,15 @@
       <tbody>
         <tr v-for="(score, index) in scores" :key="index">
           <td>#{{ score.lesBoisRank }}</td>
-          <td><a v-bind:href="'https://www.nrk.no/sport/manager/bracket-game/view/10/'+ score.id">{{ score.name }}</a></td>
+          <td>
+            <a
+              v-bind:href="
+                'https://www.nrk.no/sport/manager/bracket-game/view/10/' +
+                  score.id
+              "
+              >{{ score.name }}</a
+            >
+          </td>
           <td>{{ score.groupScore }}</td>
           <td>{{ score.playoffScore }}</td>
           <td>{{ score.questionScore }}</td>
@@ -36,7 +44,7 @@ export default {
   },
   data() {
     return {
-      players: [11007, 11777, 13645, 14852, 15823, 14008],
+      players: [11007, 11777, 13645, 14852, 15823, 14008, 11188],
       scores: [],
       lastIndex: 0,
       lastScore: 0,
